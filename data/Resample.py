@@ -52,7 +52,7 @@ def WindowTransform(img):
     img = (img-lung_window[0])/(lung_window[1]-lung_window[0])
     img[img<0] = 0
     img[img>1] = 1
-    # img = (img*255).astype('uint8')
+    # img = (img*255).astype('uint8')   # 此行注释之后，后面就不做normalized了
     return img
 
 df = pd.read_csv('labels.txt', sep='\t')

@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import random
 
+# 随机种子设置
+
 df = pd.read_csv('labels.txt', sep='\t')
 df.set_index('ID', inplace=True)
 
