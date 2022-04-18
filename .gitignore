@@ -6,3 +6,5 @@
 /data/normalized
 /data/resampled
 /data/shuffled
+
+*.pyc

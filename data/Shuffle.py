@@ -19,10 +19,10 @@ for id in ids:
     labels.append(label)
 
     id = str(id)
-    img = np.load('cube/img_segmented/'+id+'.npy')
+    img = np.load('cube/32/img_segmented/'+id+'.npy')
     imgs.append(img)
     
-    mask = np.load('cube/node_mask/'+id+'nodemask.npy')
+    mask = np.load('cube/32/node_mask/'+id+'nodemask.npy')
     masks.append(mask)
 imgs = np.stack(imgs)
 print(imgs.shape)
@@ -31,8 +31,8 @@ print(masks.shape)
 labels = np.stack(labels)
 print(labels.shape)
 
-np.save('shuffled/img_segmented.npy', imgs)
-np.save('shuffled/node_mask.npy', masks)
-np.save('shuffled/labels.npy', labels)
+np.save('shuffled/32/img_segmented.npy', imgs)
+np.save('shuffled/32/node_mask.npy', masks)
+np.save('shuffled/32/labels.npy', labels)
 
 
