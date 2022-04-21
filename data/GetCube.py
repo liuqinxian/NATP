@@ -13,8 +13,8 @@ ids = np.array(df['ID'])
 
 for id in ids:
     id = str(id)
-    mask = np.load('resampled/node_mask/'+id+'nodemask.npy')
-    img = np.load('normalized/img_segmented/'+id+'.npy')
+    mask = np.load('resampled/2/node_mask/'+id+'nodemask.npy')
+    img = np.load('normalized/2/node_segmented/'+id+'.npy')
     
     # 计算肿瘤中心
     # z, y, x = np.where(mask>0)
@@ -39,7 +39,7 @@ for id in ids:
                 cubes.append(cube)
     cubes = np.stack(cubes)  # [scale, cube_size, cube_size, cube_size]
     print(cubes.shape)
-    np.save('cube/' + str(cube_size) + '/img_segmented/'+id+'.npy', cubes)
+    np.save('cube/' + str(cube_size) + '_node/node_segmented/'+id+'.npy', cubes)
     
     
     # 将图片补齐避免超出范围
@@ -57,4 +57,4 @@ for id in ids:
                 cubes.append(cube)
     cubes = np.stack(cubes)  # [scale, cube_size, cube_size, cube_size]
     print(cubes.shape)
-    np.save('cube/' + str(cube_size) + '/node_mask/'+id+'nodemask.npy', cubes)
+    np.save('cube/' + str(cube_size) + '_node/node_mask/'+id+'nodemask.npy', cubes)

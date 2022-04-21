@@ -61,14 +61,14 @@ import numpy as np
 # ax[1,1].imshow(img2*lung_mask,cmap='gray')  # 标注mask区域切片图
 # plt.savefig('1106619_2.jpg')
 
-img = np.load('cube/img_segmented/1106619.npy')
-img = img[1]
-img = img[32, :, :]
+img = np.load('resampled/2/node_segmented/1106619.npy')
+img = img[250, :, :]
+# img = img[16, :, :]
 
-node_mask = np.load('cube/node_mask/1106619nodemask.npy')
-node_mask = node_mask[1]
-node_mask = node_mask[32, :, :]
+node_mask = np.load('resampled/2/node_mask/1106619nodemask.npy')
+node_mask = node_mask[250, :, :]
+# node_mask = node_mask[16, :, :]
 fig, ax = plt.subplots(2, figsize=[10, 10])
-ax[0].imshow(img)
+ax[0].imshow(img, cmap='gray')
 ax[1].imshow(node_mask)
-plt.savefig('1106619_cube.jpg')
+plt.savefig('1106619_node.jpg')

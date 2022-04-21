@@ -11,27 +11,14 @@ class DefaultConfig(object):
     scaler = StandardScaler()
     
     batch_size = 6
-    lr = 1e-2
+    lr = 1e-5
     
-    weight_decay = 1e-4
+    weight_decay = 1e-2
 
     step_size = 100
     gamma = 0.3
     
     epochs = 500
-    
-    # CNN
-    cnn_layer = 3
-    kernel_size = 7
-    channel = [391, 128, 32, 8]
-
-    # MLP
-    img_feature = (121-6*cnn_layer)*(96-6*cnn_layer)
-    in_feature = 64
-    
-    # RNN
-    hidden_feature = 32
-    n_class = 1
 
     def parse(self, kwargs):
         '''

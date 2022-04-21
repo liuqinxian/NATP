@@ -46,12 +46,12 @@ def Resample(img, mask=False):
     resampled_img = resampler.Execute(img)  # 得到重新采样后的图像
     return resampled_img
 
-def WindowTransform(img):
-    lung_window = np.array([-1500., 500.])
+def WindowTransform(img, left=-100., right=300.):
+    # lung_window = np.array([-900., 200.])
     # 窗宽1000~2000 窗位-500~-700
-    img = (img-lung_window[0])/(lung_window[1]-lung_window[0])
-    img[img<0] = 0
-    img[img>1] = 1
+    img = (img-left)/(right-left)
+    img[img<0] = 0.
+    img[img>1] = 1.
     # img = (img*255).astype('uint8')   # 此行注释之后，后面就不做normalized了
     return img
 
@@ -65,6 +65,43 @@ ids = np.array(df['ID'])
 z1s = np.array(df['Z1'])
 z2s = np.array(df['Z2'])
 
+# for id, z1, z2 in zip(ids, z1s, z2s):
+#     id = str(id)
+#     # 读取图片和对应mask
+#     img = sitk.ReadImage('nii/'+id+'.nii')
+#     mask = sitk.ReadImage('mask/'+id+'mask.nii')
+    
+#     # 截取肺部
+#     img = img[:,:,z2:z1]
+#     mask = mask[:,:,z2:z1]
+#     node_mask = sitk.GetArrayFromImage(mask)
+#     lung_mask = np.load('lung_mask/'+id+'lungmask.npy').astype('int16')
+#     lung_mask[node_mask==1] = 1 
+#     lung_mask = sitk.GetImageFromArray(lung_mask)
+#     lung_mask.SetSpacing(mask.GetSpacing())
+#     lung_mask.SetOrigin(mask.GetOrigin())
+#     lung_mask.SetDirection(mask.GetDirection())
+
+#     # spacing interpolation
+#     mask = Resample(mask, mask=True)
+#     mask = sitk.GetArrayFromImage(mask)
+#     np.save('resampled/node_mask/'+id+'nodemask.npy', mask)
+#     lung_mask = Resample(lung_mask, mask=True)
+#     lung_mask = sitk.GetArrayFromImage(lung_mask)
+#     np.save('resampled/lung_mask/'+id+'lungmask.npy', lung_mask)
+#     img = Resample(img)
+#     img = sitk.GetArrayFromImage(img)
+#     img_segmented = img
+    
+#     np.save('resampled/img/'+id+'.npy', img)
+#     img = WindowTransform(img)
+#     np.save('normalized/img/'+id+'.npy', img)
+    
+#     img_segmented[lung_mask==0] = -1500
+#     np.save('resampled/img_segmented/'+id+'.npy', img_segmented)
+#     img_segmented = WindowTransform(img_segmented)
+#     np.save('normalized/img_segmented/'+id+'.npy', img_segmented)
+
 for id, z1, z2 in zip(ids, z1s, z2s):
     id = str(id)
     # 读取图片和对应mask
@@ -74,33 +111,34 @@ for id, z1, z2 in zip(ids, z1s, z2s):
     # 截取肺部
     img = img[:,:,z2:z1]
     mask = mask[:,:,z2:z1]
-    node_mask = sitk.GetArrayFromImage(mask)
-    lung_mask = np.load('lung_mask/'+id+'lungmask.npy').astype('int16')
-    lung_mask[node_mask==1] = 1
-    lung_mask = sitk.GetImageFromArray(lung_mask)
-    lung_mask.SetSpacing(mask.GetSpacing())
-    lung_mask.SetOrigin(mask.GetOrigin())
-    lung_mask.SetDirection(mask.GetDirection())
+    # node_mask = sitk.GetArrayFromImage(mask)
+    # lung_mask = np.load('lung_mask/'+id+'lungmask.npy').astype('int16')
+    # lung_mask[node_mask==1] = 1 
+    # lung_mask = sitk.GetImageFromArray(lung_mask)
+    # lung_mask.SetSpacing(mask.GetSpacing())
+    # lung_mask.SetOrigin(mask.GetOrigin())
+    # lung_mask.SetDirection(mask.GetDirection())
 
     # spacing interpolation
     mask = Resample(mask, mask=True)
     mask = sitk.GetArrayFromImage(mask)
-    np.save('resampled/node_mask/'+id+'nodemask.npy', mask)
-    lung_mask = Resample(lung_mask, mask=True)
-    lung_mask = sitk.GetArrayFromImage(lung_mask)
-    np.save('resampled/lung_mask/'+id+'lungmask.npy', lung_mask)
+    np.save('resampled/2/node_mask/'+id+'nodemask.npy', mask)
+    # lung_mask = Resample(lung_mask, mask=True)
+    # lung_mask = sitk.GetArrayFromImage(lung_mask)
+    # np.save('2/resampled/2/lung_mask/'+id+'lungmask.npy', lung_mask)
     img = Resample(img)
     img = sitk.GetArrayFromImage(img)
     img_segmented = img
     
-    np.save('resampled/img/'+id+'.npy', img)
-    img = WindowTransform(img)
-    np.save('normalized/img/'+id+'.npy', img)
+    # np.save('2/resampled/2/img/'+id+'.npy', img)
+    # img = WindowTransform(img)
+    # np.save('2/normalized/img/'+id+'.npy', img)
     
-    img_segmented[lung_mask==0] = -1500
-    np.save('resampled/img_segmented/'+id+'.npy', img_segmented)
+    img_segmented[mask==0] = -100
+    np.save('resampled/2/node_segmented/'+id+'.npy', img_segmented)
     img_segmented = WindowTransform(img_segmented)
-    np.save('normalized/img_segmented/'+id+'.npy', img_segmented)
+    np.save('normalized/2/node_segmented/'+id+'.npy', img_segmented)
     
+
 
     

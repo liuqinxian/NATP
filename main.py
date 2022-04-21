@@ -7,7 +7,7 @@ import random
 
 from config import DefaultConfig, Logger
 from data import cubeDataset
-from model import base
+from model import CubeBase
 
 args = DefaultConfig()
 
@@ -35,7 +35,7 @@ def train(**kwargs):
     # loss_func = nn.CrossEntropyLoss()
     loss_func = nn.BCELoss()
 
-    model = base()
+    model = CubeBase()
     model.cuda()
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay = args.weight_decay)
@@ -46,6 +46,7 @@ def train(**kwargs):
         model.train()        
         loss_sum, n = 0.0, 0
         for x, y in train_iter:
+            print('\n')
             print(y)
             x, y = x.cuda(), y.cuda()
             optimizer.zero_grad()
@@ -57,6 +58,7 @@ def train(**kwargs):
             print('pred:', y_pred)
             # loss = loss_func(y_pred, y.long())
             loss = loss_func(y_pred, y.to(torch.float32))
+            print(loss)
             loss.backward()
             optimizer.step()
             loss_sum += loss.item()
